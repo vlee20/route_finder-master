@@ -1,0 +1,209 @@
+<h1 id="route-finder-documentation">Route Finder Documentation</h1>
+<p><img src="https://github.com/drotter120/route_finder/workflows/iOS%20starter%20workflow/badge.svg" alt="Build Status" /> <img src="https://github.com/drotter120/route_finder/workflows/Convert%20to%20HTML/badge.svg" alt="Markdown to HTML" /></p>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ol type="1">
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Usage">Usage</a></li>
+<li><a href="#Overall-Description">Overall Description</a></li>
+<li><a href="#External-Interface-Requirements">External Interface Requirements</a></li>
+<li><a href="#System-Features">System Features</a></li>
+<li><a href="#Other-Nonfunctional-Requirements">Other Nonfunctional Requirements</a></li>
+<li><a href="#Appendix-A-Analysis-Models">Appendix A: Analysis Models</a></li>
+<li><a href="#user-diagram">User Diagrams</a></li>
+<li><a href="#data-flow-diagrams-dfd">Data Flow Diagrams (DFD)</a></li>
+<li><a href="#Class-Diagrams">Class Diagrams</a></li>
+<li><a href="#State-Transition-Diagrams">State Transition Diagrams</a></li>
+<li><a href="#Entity-Relationship-Models">Entity Relationship Models</a></li>
+<li><a href="#Appendix-B-To-Be-Determined-List">Appendix B: To-Be-Determined List</a></li>
+</ol>
+<h2 id="introduction">Introduction</h2>
+<ol type="1">
+<li><p>Purpose</p>
+<p>This program is intended to fufill the needs of someone who needs to plot a route between two points, especially for the purpose of running, biking, jogging, or wandering around.</p></li>
+<li><p>Document Conventions</p>
+<p>This document will conform to github Markdown conventions for ease of rendering cross-platform. The following conventions are used:</p>
+<ul>
+<li>API =&gt; Application Programming Interface</li>
+</ul></li>
+<li><p>Intended Audience and Reading Suggestions</p>
+<p>This document is intended for development team members and should adhere to basic highschool and above reading/writing levels.</p></li>
+<li><p>Product Scope</p>
+<p>This project will be developed within multiple iterations inside of (1) semester at California State University, Fullerton. The bulk of the work is accessing the MapKit API from Apple’s IOS platform and any data will be stored locally. User location is accessed upon consent from the user.</p></li>
+<li><p>References and Resources</p>
+<ol type="1">
+<li><a href="https://developer.apple.com/maps/">Apple Maps API</a></li>
+<li><a href="https://github.com/drotter120/route_finder">Github Repository</a></li>
+<li><a href="https://docs.google.com/document/d/1wHMqEeARNPuieJ8bT2oxALY_5HoHTPM_qxM7svoKMwg/edit?usp=sharing">Agenda and Meeting Notes</a></li>
+<li><a href="https://www.codementor.io/@muneebali/mapkit-user-current-location-10xdbyy1v3">CodeMentor Mapkit Demo</a></li>
+<li><a href="https://www.raywenderlich.com/7738344-mapkit-tutorial-getting-started">Ray Wenderlich Mapkit Tutorial</a></li>
+<li><a href="https://www.youtube.com/watch?v=YtYEGsi2HB4">Youtube Mapkit Demo</a></li>
+<li><a href="https://github.com/myspaghetti/macos-virtualbox">Virtualbox With QEMU</a></li>
+<li><a href="https://www.reddit.com/r/virtualbox/comments/dpihyd/read_this_first_macos_on_virtualbox/">Virtualbox FAQ on Reddit</a></li>
+</ol></li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ol type="1">
+<li><p>Loading the Application</p>
+<p>Upon opening the app, the splash screen will load. If you see this screen for over 30 seconds, please report this problem to the development team.</p>
+<p><img src='screenshots/splash_screen.png' height='600px'/></p></li>
+<li><p>Allowing User Location</p>
+<p>When opening the app for the first time, a prompt to allow user location access will appear. If you choose to allow, then the app will start with your current location as the starting point. Otherwise you will have to enter that information manually.</p>
+<p><img src='screenshots/ask for location.png' height='600px'></p>
+<p>Afterwards, the home screen will show.</p>
+<p><img src='screenshots/shows_user_location.png' height='600px'></p></li>
+<li><p>Setting a Specific Destination</p>
+<p>You can enter a location to route to either by coordinates, or address.</p>
+<p><img src='screenshots/enter_location.png' height='600px'></p></li>
+<li><p>Setting a Random Destination</p>
+<p>You can enter a distance for a random location into the miles input box.</p>
+<p><img src='screenshots/enter_miles.png' height='600px'></p></li>
+<li><p>Plotting a Route</p>
+<p>Once you have a destination, you can plot your route by tapping the Route button.</p>
+<p><img src='screenshots/route button.png' height='600px'></p></li>
+</ol>
+<h2 id="overall-description">Overall Description</h2>
+<ol type="1">
+<li><p>Product Perspective</p>
+<p>The is a simple route-finding and route-generating tool that will be available for the IOS operating system. Using this program, users can find a location and generate a route to that location.</p></li>
+<li><p>Product Functions</p>
+<p>There will be <strong>6</strong> distinct functions.</p>
+<ol type="1">
+<li>Show current location</li>
+<li>Show user-input location (manual latitude and longitude or long press on the map)</li>
+<li>Generate a path (directions) to a user-input location</li>
+<li>Generate a path (directions) to a random location within user-input miles</li>
+<li>Save a path to a profile list</li>
+<li>Export a profile list to a string for sharing with other users or backup purposes</li>
+</ol></li>
+<li><p>User Classes and Characteristics</p>
+<p>General user - anyone who wants to find a route between two points, for any purpose such as jogging, biking, hiking, or wandering out.</p>
+<p>General users can perform the following functions:</p>
+<ul>
+<li>Set the destination point</li>
+<li>Set the starting point</li>
+<li>Generate a path between the starting point and destination point</li>
+<li>Set the random maximum distance</li>
+<li>Set the random minimum distance</li>
+<li>Export the current path as a string</li>
+<li>Copy the exported path by tapping a button</li>
+</ul></li>
+<li><p>Operating Environment</p>
+<p>This app will be run on the IOS system.</p>
+<ul>
+<li>MapKit API Requests</li>
+<li>Serverless Architecture</li>
+<li>platform: IOS/Swift/Mapkit</li>
+</ul></li>
+<li><p>Design and Implementation Constraints</p>
+<ol type="1">
+<li>We are beholden to Apple’s API (mapkit) and the rest of their user-interface components to run on IOS.</li>
+<li>Mapkit API calls for the required functionality</li>
+<li>Implement an intuitive user interface so the user is not lost</li>
+</ol></li>
+<li><p>Assumptions and Dependencies</p>
+<ol type="1">
+<li>The user must have a device running IOS version (3.0) or higher</li>
+<li>The app must be installed</li>
+<li>The device must be turned on and the app must be running</li>
+</ol></li>
+</ol>
+<h2 id="external-interface-requirements">External Interface Requirements</h2>
+<ol type="1">
+<li>User Interfaces
+<ul>
+<li>Front end: SWIFT &amp; IOS GUI libraries</li>
+<li>Back end: MapKit (IOS 3.0+ library)</li>
+</ul></li>
+<li>Hardware Interfaces
+<ul>
+<li>Touch</li>
+<li>Bluetooth keyboard</li>
+<li>Bluetooth mouse</li>
+<li>Iphone</li>
+<li>Ipad</li>
+<li>Iphone simulator</li>
+<li>Hacked client (we don’t care about this one, if it breaks it’s not our problem)</li>
+</ul></li>
+<li>Software Interfaces
+<ul>
+<li>Mapkit</li>
+<li>CoreLocation</li>
+<li>IOS System Calls (User Input, Draw GUI, Request location)</li>
+</ul></li>
+<li>Communications Interface This project supports all types of IOS devices so long as they are version 3.0+. There are simple input forms for the user to specify their routes.</li>
+</ol>
+<h2 id="system-features">System Features</h2>
+<ol type="1">
+<li>General Appearance</li>
+</ol>
+<figure>
+<img src="docs/images/concept.jpg" alt="" /><figcaption>Image of RouteFinder Conecept</figcaption>
+</figure>
+<ol start="2" type="1">
+<li><p>Description and Priority</p>
+<p>The route finder application can assist many kinds of users in finding new paths to travel, encourage exercise, and prevent boredom. Ergo, this project is of the highest priority.</p></li>
+<li><p>Functional Requirements</p>
+<ol type="1">
+<li>The user will launch the app, and the first thing they will see is a login prompt, requesting for username and password</li>
+<li>Username and password will be quickly verified, and then the app will proceed to the next point.</li>
+<li>A map will be displayed, with the current coordinates and 3 buttons present 1. Address - Displays a submenu with a list of previous addresses 2. Distance - Requests user to give a distance, and then creates a route going that distance and back 3. Random Route - Randomly selects a previous address from the aforementioned list.</li>
+</ol></li>
+</ol>
+<h2 id="other-nonfunctional-requirements">Other Nonfunctional Requirements</h2>
+<ol type="1">
+<li><p>Performance Requirements</p>
+<ol type="1">
+<li>Simulator will be slow. Deal with it.</li>
+<li>Any iPhone or iPad that can run the required operating system should be fine.</li>
+<li>This is not a high-performance or performance-critical application.</li>
+</ol></li>
+<li><p>Safety Requirements</p>
+<ol type="1">
+<li>Don’t break github. Branch your code.</li>
+</ol></li>
+<li><p>Security Requirements</p>
+<ol type="1">
+<li>No sensitive data is stored, security is moot.</li>
+</ol></li>
+<li><p>Software Quality Attributes</p>
+<ol type="1">
+<li>Reliability - K.I.S.S. Keep it simple</li>
+<li>Functionality - Do our key functions and do them well</li>
+<li>Performance - Don’t be the performance bottleneck</li>
+</ol></li>
+<li><p>Business Rules</p>
+<ol type="1">
+<li>Allow cross-group discussion for all important matters.</li>
+<li>Everyone reviews code before submissions.</li>
+<li>Everyone tests before submissions.</li>
+</ol></li>
+<li><p>User Documentation</p>
+<p>To compile and run:</p>
+<ol type="1">
+<li><p>Clone repository</p>
+<p><code>git clone https://github.com/drotter120/route_finder.git</code></p></li>
+<li><p>Open XCode project file in ‘RouteFinder’ folder</p></li>
+<li><p>Click the run icon.</p></li>
+<li><p>Simulator will open, have fun.</p></li>
+</ol></li>
+</ol>
+<h2 id="appendix-a-analysis-models">Appendix a: Analysis Models</h2>
+<h2 id="user-diagram">User Diagram</h2>
+<p><img src="docs/images/user_diagram.jpg" alt="Image of User Diagram" /> ## Data Flow Diagrams (DFD)</p>
+<p><img src="docs/images/activity.jpg" alt="Image of Activity Diagram" /> ## Class Diagrams</p>
+<p>Test Units<br />
+<img src="docs/images/Test_UML.png" alt="Image of Test UML Diagram" /></p>
+<p>View Controller<br />
+<img src="docs/images/ViewController_UML.png" alt="Image of ViewController UML Diagram" /></p>
+<p>App Delegate<br />
+<img src="docs/images/Appdelegate_UML.png" alt="Image of AppDelegate UML Diagram" /></p>
+<h2 id="state-transition-diagrams">State Transition Diagrams</h2>
+<figure>
+<img src="docs/images/plot_state_diagram.png" alt="" /><figcaption>Image of State Diagram</figcaption>
+</figure>
+<h2 id="entity-relationship-models">Entity Relationship Models</h2>
+<p>None - No database needed</p>
+<h2 id="appendix-c-to-be-determined-list">Appendix C: To-Be-Determined List</h2>
+<ul>
+<li>Testing and Testing Methodology - currently have <a href="https://docs.google.com/spreadsheets/d/1r9WiNwj2ovsCwUcVcCsD2JVtbHmEBJ4vWiULwC1oEas/edit?usp=sharing">Testing Spreadsheet</a></li>
+</ul>

@@ -1,0 +1,21 @@
+name: Convert to HTML
+
+on: push
+
+jobs:
+  convert_via_pandoc:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          mkdir output  # create output dir
+          # this will also include README.md
+          # echo "::set-env name=FILELIST::$(printf '"%s" ' *.md)" 
+          echo "{FILELIST}={$(printf '"%s" ' *.md)}" >> $GITHUB_ENV
+      - uses: docker://pandoc/latex:2.9
+        with:
+          args: -f markdown -t html --output=output/result.html ${{ env.FILELIST }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: markdown_to_html
+          path: output
